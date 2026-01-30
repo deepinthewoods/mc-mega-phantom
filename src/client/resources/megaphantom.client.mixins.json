@@ -1,0 +1,9 @@
+{
+	"required": true,
+	"package": "ninja.trek.megaphantom.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

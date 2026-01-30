@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "ninja.trek.megaphantom.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"PlayerHurtByPhantomMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "megaphantom",
+	"version": "${version}",
+	"name": "MegaPhantom",
+	"description": "Phantoms swoop but deal no damage. After enough swoops, a Mega Phantom boss spawns. Small phantoms shield the boss via line-of-sight damage reduction.",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/megaphantom/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"ninja.trek.megaphantom.MegaPhantom"
+		],
+		"client": [
+			"ninja.trek.megaphantom.MegaPhantomClient"
+		],
+		"modmenu": [
+			"ninja.trek.megaphantom.config.MegaPhantomModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"megaphantom.mixins.json",
+		{
+			"config": "megaphantom.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.10",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"modmenu": "*"
+	}
+}
