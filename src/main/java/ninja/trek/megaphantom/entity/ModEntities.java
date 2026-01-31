@@ -5,7 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import ninja.trek.megaphantom.MegaPhantom;
@@ -13,7 +13,7 @@ import ninja.trek.megaphantom.MegaPhantom;
 public class ModEntities {
     public static final ResourceKey<EntityType<?>> MEGA_PHANTOM_KEY = ResourceKey.create(
             Registries.ENTITY_TYPE,
-            ResourceLocation.fromNamespaceAndPath(MegaPhantom.MOD_ID, "mega_phantom")
+            Identifier.fromNamespaceAndPath(MegaPhantom.MOD_ID, "mega_phantom")
     );
 
     public static final EntityType<MegaPhantomEntity> MEGA_PHANTOM = Registry.register(
