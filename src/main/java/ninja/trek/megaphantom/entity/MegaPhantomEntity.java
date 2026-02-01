@@ -5,6 +5,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -23,15 +25,31 @@ import ninja.trek.megaphantom.item.ModItems;
 import java.util.List;
 
 public class MegaPhantomEntity extends Phantom {
+    private static final int SPAWN_SOUND_COUNT = 10;
+    private static final int SPAWN_SOUND_DURATION_TICKS = 40; // 2 seconds
+
     private final ServerBossEvent bossEvent = new ServerBossEvent(
             Component.literal("Mega Phantom").withStyle(ChatFormatting.DARK_PURPLE),
             BossEvent.BossBarColor.PURPLE,
             BossEvent.BossBarOverlay.PROGRESS
     );
 
+    private int spawnTickCounter = 0;
+    private int[] spawnSoundTicks;
+
     public MegaPhantomEntity(EntityType<? extends Phantom> entityType, Level level) {
         super(entityType, level);
         this.xpReward = 50;
+    }
+
+    /** Call after adding entity to world to schedule spawn sounds. */
+    public void initSpawnSounds() {
+        spawnSoundTicks = new int[SPAWN_SOUND_COUNT];
+        for (int i = 0; i < SPAWN_SOUND_COUNT; i++) {
+            spawnSoundTicks[i] = this.random.nextInt(SPAWN_SOUND_DURATION_TICKS);
+        }
+        java.util.Arrays.sort(spawnSoundTicks);
+        spawnTickCounter = 0;
     }
 
     public static AttributeSupplier.Builder createMegaPhantomAttributes() {
@@ -46,6 +64,21 @@ public class MegaPhantomEntity extends Phantom {
     protected void customServerAiStep(ServerLevel level) {
         super.customServerAiStep(level);
         bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
+
+        // Play spawn swoop sounds
+        if (spawnSoundTicks != null) {
+            for (int tick : spawnSoundTicks) {
+                if (tick == spawnTickCounter) {
+                    level.playSound(null, this.getX(), this.getY(), this.getZ(),
+                            SoundEvents.PHANTOM_SWOOP, SoundSource.HOSTILE,
+                            1.0F, 0.8F + this.random.nextFloat() * 0.4F);
+                }
+            }
+            spawnTickCounter++;
+            if (spawnTickCounter >= SPAWN_SOUND_DURATION_TICKS) {
+                spawnSoundTicks = null; // Done, stop checking
+            }
+        }
     }
 
     @Override

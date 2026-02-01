@@ -24,6 +24,8 @@ public class MegaPhantomSpawner {
 
         megaPhantom.snapTo(x, y, z, player.getRandom().nextFloat() * 360.0F, 0.0F);
         megaPhantom.setTarget(player);
+        megaPhantom.setPersistenceRequired();
+        megaPhantom.initSpawnSounds();
 
         level.addFreshEntity(megaPhantom);
 
