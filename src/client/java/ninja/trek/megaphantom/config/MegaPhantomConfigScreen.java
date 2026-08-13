@@ -3,7 +3,7 @@ package ninja.trek.megaphantom.config;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 
 public class MegaPhantomConfigScreen extends Screen {
@@ -23,7 +23,6 @@ public class MegaPhantomConfigScreen extends Screen {
         thresholdField = new EditBox(this.font, centerX - 50, centerY - 20, 100, 20,
                 Component.literal("Swoop Threshold"));
         thresholdField.setValue(String.valueOf(MegaPhantomConfig.get().swoopThreshold));
-        thresholdField.setFilter(s -> s.isEmpty() || s.matches("\\d+"));
         this.addRenderableWidget(thresholdField);
 
         this.addRenderableWidget(Button.builder(Component.literal("Save"), button -> {
@@ -44,14 +43,14 @@ public class MegaPhantomConfigScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        super.render(graphics, mouseX, mouseY, delta);
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, this.height / 2 - 50, 0xFFFFFF);
-        graphics.drawCenteredString(this.font, "Swoop Threshold:", this.width / 2, this.height / 2 - 35, 0xAAAAAA);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
+        graphics.centeredText(this.font, this.title, this.width / 2, this.height / 2 - 50, 0xFFFFFF);
+        graphics.centeredText(this.font, "Swoop Threshold:", this.width / 2, this.height / 2 - 35, 0xAAAAAA);
     }
 
     @Override
     public void onClose() {
-        this.minecraft.setScreen(parent);
+        this.minecraft.gui.setScreen(parent);
     }
 }

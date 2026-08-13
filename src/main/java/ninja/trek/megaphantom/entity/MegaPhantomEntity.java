@@ -29,6 +29,7 @@ public class MegaPhantomEntity extends Phantom {
     private static final int SPAWN_SOUND_DURATION_TICKS = 40; // 2 seconds
 
     private final ServerBossEvent bossEvent = new ServerBossEvent(
+            this.getUUID(),
             Component.literal("Mega Phantom").withStyle(ChatFormatting.DARK_PURPLE),
             BossEvent.BossBarColor.PURPLE,
             BossEvent.BossBarOverlay.PROGRESS
@@ -120,10 +121,9 @@ public class MegaPhantomEntity extends Phantom {
         // Send action bar message to attacker
         if (source.getEntity() instanceof ServerPlayer attacker && shieldCount > 0) {
             int pct = (int) (reduction * 100);
-            attacker.displayClientMessage(
+            attacker.sendOverlayMessage(
                     Component.literal("Phantom Shield: " + shieldCount + " phantoms, " + pct + "% damage reduced")
-                            .withStyle(ChatFormatting.LIGHT_PURPLE),
-                    true
+                            .withStyle(ChatFormatting.LIGHT_PURPLE)
             );
         }
 
